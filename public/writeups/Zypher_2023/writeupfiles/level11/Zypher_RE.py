@@ -1,15 +1,16 @@
-import random
+import secrets
 import hashlib
-from cryptography.fernet import Fernet
-import base64
 import time
 import webbrowser as w
-
+import os
 salt='ZYPHER'
 
-secret_key_prior='hacker{'
-secret_key_main='匴倀义刀㕙䌀弱䬀㝔䬀㙃䄀呟刀'   
-secret_key_latter='}'
+secret_key_prior=hashlib.sha256(secrets.token_bytes(16)).hexdigest()
+secret_key_main=os.environ.get('SECRET_KEY_MAIN')
+if secret_key_main is None:
+    secret_key_main = secrets.token_urlsafe(16)
+    # You should save this key securely for future use   
+secret_key_latter=input("Enter the secret key latter: ")
 
 
 def intro():
@@ -20,7 +21,7 @@ def intro():
     print(  "===================================================\n\n")
     
 def menu():
-    print("Welcome " +"Ryan"+"!\n")
+    print(f"Welcome {salt} {salt} Ryan\n")
     time.sleep(2)
     print("That's ryt..\n")
     time.sleep(1)
@@ -32,24 +33,19 @@ def menu():
     time.sleep(8)
     print("But this one is no cake son...solve this to decipher ur 'destiny'")
     time.sleep(5)
-    print("Or shd I say "+salt)
+    print("Or should I say " + salt)
     time.sleep(4)
-    print(  "===================================================\n\n")
+    print("===================================================\n\n")
     
-    print(salt+"\n\n\
-Menu:\n\
-(a) Unlock secret file\n\
-(b) Solve Side Quests\n\
-(c) Enter key\n\
-(d) Exit ")
+    print(salt + "\n\nMenu:\n" + "(a) Unlock secret file\n" + "(b) Solve Side Quests\n" + "(c) Enter key\n" + "(d) Exit ")
 
-    choice = input("What would you like to do, "+ username +" (a/b/c/d)? ")
+    choice = input("What would you like to do, " + username + " (a/b/c/d)? ")
     
-    if choice=='a':
-        url='https://cyscomvit.com/' #replace url with encrypted file location url
+    if choice == 'a':
+        url = 'https://cyscomvit.com/'  # replace url with encrypted file location url
         w.open(url)
-    elif choice=='c':
-        x=input()
+    elif choice == 'c':
+        x = input()
         if key(x):
             print("Key accepted")
             time.sleep(3)
@@ -60,11 +56,11 @@ Menu:\n\
             print("Key invalid")
     else:
         global loop
-        loop=False
-        print("Choose stg within the menu kid..")
+        loop = False
+        print("Choose something within the menu kid..")
 
-def encrypt(flag,key):
-    enc=''.join([chr((ord(flag[i]) << key) + ord(flag[i + 1]))+chr(ord(salt[random.randint(1, 10)])<<key) for i in range(0, len(flag), 2)])
+def encrypt(flag, key):
+    enc = ''.join([chr((ord(flag[i]) << key) + ord(flag[i + 1])) + chr(ord(salt[secrets.randbelow(len(salt))]) << key) for i in range(0, len(flag), 2)])
     print(enc)
     return enc
 

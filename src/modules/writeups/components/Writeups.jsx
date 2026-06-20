@@ -69,8 +69,13 @@ const NORM_MAP = {
 
 const normalizeCategory = (cat) => {
   if (!cat) return 'General';
-  const clean = cat.replace(/\(.*\)/g, '').toLowerCase().trim();
-  return NORM_MAP[clean] || (cat.trim().charAt(0).toUpperCase() + cat.trim().slice(1));
+  const clean = cat.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '').replace(/[^a-zA-Z0-9_]/g, '').toLowerCase().trim();
+  const normalized = NORM_MAP[clean] || (clean.charAt(0).toUpperCase() + clean.slice(1));
+  // Improved input validation to prevent ReDoS
+  if (!/^[a-zA-Z0-9_]{1,50}$/.test(clean)) {
+    return 'Invalid category';
+  }
+  return normalized;
 };
 
 const CATEGORY_META = {
