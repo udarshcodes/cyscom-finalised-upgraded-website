@@ -1,10 +1,13 @@
 const fs = require('fs');
 const path = require('path');
+const { normalize } = require('path');
 
 function processDir(dir) {
-    const files = fs.readdirSync(dir);
+    dir = path.normalize(dir); 
+    dir = path.resolve(dir);
+    const files = fs.readdirSync(dir).filter(file => !path.basename(file).startsWith('.')).map(file => path.basename(file));
     for (const file of files) {
-        const fullPath = path.join(dir, file);
+        const fullPath = path.join(dir, path.basename(path.normalize(file)).replace(/^(\.\.[\\/])+/, '').replace(/[^a-zA-Z0-9._-]/g, '_').replace(/\/$/, ''));
         if (fs.statSync(fullPath).isDirectory()) {
             processDir(fullPath);
         } else if (fullPath.endsWith('.jsx') || fullPath.endsWith('.js')) {
@@ -22,5 +25,5 @@ function processDir(dir) {
     }
 }
 
-processDir('./src');
+processDir(path.resolve('./src')); 
 console.log('Done!');
