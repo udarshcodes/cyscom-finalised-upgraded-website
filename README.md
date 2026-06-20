@@ -130,6 +130,14 @@ The codebase follows a modular component architecture:
 
 ## Key Features
 
+### Core Ecosystem Features
+- **Offline-First QR Scanning:** Progressive Web App (PWA) with IndexedDB support for reliable scanning in high-latency event environments.
+- **3D Achievement Badges:** Interactive 3D coins and badges using Three.js and React Three Fiber to showcase community milestones.
+- **Passwordless OTP Authentication:** Secure 2-step verification system replacing traditional passwords for seamless event access.
+- **Live Event Analytics:** Real-time dashboards with Recharts, featuring dynamic heatmaps for check-in monitoring.
+- **Project Showcase & Peer Ratings:** Community portal to submit, discover, and rate open-source projects and CTF writeups.
+- **Dynamic OpenGraph Certificates:** Automated OpenGraph social sharing UI that generates visual previews for LinkedIn and Twitter.
+
 ### Visual Features
 
 - **Animated Transitions** - Smooth page transitions using GSAP
