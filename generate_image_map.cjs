@@ -5,7 +5,8 @@ function getFiles(dir, files = []) {
   if (!fs.existsSync(dir)) return files;
   const list = fs.readdirSync(dir);
   for (const file of list) {
-    const fullPath = path.join(dir, file);
+    const fileName = path.basename(file).replace(/[./\\]/g, '_').replace(/[^a-zA-Z0-9_-]/g, '');
+const fullPath = path.join(dir, fileName);
     if (fs.statSync(fullPath).isDirectory()) {
       getFiles(fullPath, files);
     } else {

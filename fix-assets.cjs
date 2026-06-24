@@ -4,7 +4,9 @@ const path = require('path');
 function processDir(dir) {
     const files = fs.readdirSync(dir);
     for (const file of files) {
-        const fullPath = path.join(dir, file);
+        const fileName = path.basename(file);
+const sanitizedFileName = path.basename(file).replace(/[^a-zA-Z0-9._-]/g, '');
+const fullPath = path.join(dir, sanitizedFileName);
         if (fs.statSync(fullPath).isDirectory()) {
             processDir(fullPath);
         } else if (fullPath.endsWith('.jsx') || fullPath.endsWith('.js')) {
