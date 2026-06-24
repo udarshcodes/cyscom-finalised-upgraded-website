@@ -1,14 +1,17 @@
-import random
+import secrets
 import hashlib
-from cryptography.fernet import Fernet
-import base64
 import time
 import webbrowser as w
-
 salt='ZYPHER'
 
-secret_key_prior='hacker{'
-secret_key_main='匴倀义刀㕙䌀弱䬀㝔䬀㙃䄀呟刀'   
+import os
+secret_key_prior=os.environ.get('SECRET_KEY_PRIOR')
+if secret_key_prior is None:
+    secret_key_prior = secrets.token_urlsafe(32)
+import os
+secret_key_main = os.environ.get('SECRET_KEY_MAIN')
+if secret_key_main is None:
+    secret_key_main = secrets.token_urlsafe(32)
 secret_key_latter='}'
 
 
@@ -45,26 +48,26 @@ Menu:\n\
 
     choice = input("What would you like to do, "+ username +" (a/b/c/d)? ")
     
-    if choice=='a':
-        url='https://cyscomvit.com/' #replace url with encrypted file location url
-        w.open(url)
-    elif choice=='c':
-        x=input()
-        if key(x):
-            print("Key accepted")
-            time.sleep(3)
-            print("now find the flag and use it to unlock the secret files")
-            time.sleep(7)
-            print("good luck")
-        else:
-            print("Key invalid")
+if choice == 'a':
+    url = 'https://cyscomvit.com/'  # replace url with encrypted file location url
+    w.open(url)
+elif choice == 'c':
+    x = input()
+    if key(x):
+        print("Key accepted")
+        time.sleep(3)
+        print("now find the flag and use it to unlock the secret files")
+        time.sleep(7)
+        print("good luck")
     else:
-        global loop
-        loop=False
-        print("Choose stg within the menu kid..")
+        print("Key invalid")
+else:
+    global loop
+    loop = False
+    print("Choose stg within the menu kid..")
 
-def encrypt(flag,key):
-    enc=''.join([chr((ord(flag[i]) << key) + ord(flag[i + 1]))+chr(ord(salt[random.randint(1, 10)])<<key) for i in range(0, len(flag), 2)])
+def encrypt(flag, key):
+    enc = ''.join([chr((ord(flag[i]) << key) + ord(flag[i + 1])) + chr((ord(salt[secrets.randbelow(10) + 1]) << key)) for i in range(0, len(flag), 2)])
     print(enc)
     return enc
 

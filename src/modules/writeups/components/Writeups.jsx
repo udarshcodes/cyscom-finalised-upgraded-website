@@ -69,7 +69,8 @@ const NORM_MAP = {
 
 const normalizeCategory = (cat) => {
   if (!cat) return 'General';
-  const clean = cat.replace(/\(.*\)/g, '').toLowerCase().trim();
+  const escapeRegExp = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+const clean = escapeRegExp(cat).replace(/[^\w\s]/gi, '').trim();
   return NORM_MAP[clean] || (cat.trim().charAt(0).toUpperCase() + cat.trim().slice(1));
 };
 
