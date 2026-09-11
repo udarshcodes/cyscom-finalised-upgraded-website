@@ -12,7 +12,7 @@ const sponsors = [
     name: "Trainsec",
     description: "TrainSec Academy is a cybersecurity learning platform that provides hands-on training in areas such as ethical hacking, digital forensics, malware analysis, and cybersecurity research.",
     image: "/img/sponsors/trainsec_logo.webp",
-    website: null
+    website: "https://trainsec.net/"
   },
   {
     name: "AECC",
